@@ -11,3 +11,12 @@
 }
 
 */
+
+@layer base {
+    @font-face {
+        font-family: "DungGeunMo";
+        src: url("/fonts/DungGeunMo.eot");
+        src: url("/fonts/DungGeunMo.woff");
+        src: url("/fonts/DungGeunMo.woff2");
+    }
+}

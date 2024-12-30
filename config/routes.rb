@@ -11,4 +11,9 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+  scope module: :game do
+    resources :tests, only: %i[index]
+  end
+
+  root to: "game/tests#index"
 end
