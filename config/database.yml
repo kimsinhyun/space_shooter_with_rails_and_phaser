@@ -22,7 +22,11 @@ default: &default
 
 development:
   <<: *default
-  database: poker_rails_development
+  database: <%= ENV["DEVELOPMENT_DATABASE"] %>
+  host: <%= ENV.fetch("DEVELOPMENT_DATABASE_HOST", " host.docker.internal") %>
+  username: <%= ENV["DEVELOPMENT_DATABASE_USERNAME"] %>
+  password: <%= ENV["DEVELOPMENT_DATABASE_PASSWORD"] %>
+  port: <%= ENV["DEVELOPMENT_DATABASE_PORT"] %>
 
   # The specified database role being used to connect to PostgreSQL.
   # To create additional roles in PostgreSQL see `$ createuser --help`.
@@ -56,7 +60,11 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: poker_rails_test
+  database: <%= "#{ENV["TEST_DATABASE"]}_#{ENV['TEST_ENV_NUMBER']}" %>
+  host: <%= ENV["TEST_DATABASE_HOST"] %>
+  username: <%= ENV["TEST_DATABASE_USERNAME"] %>
+  password: <%= ENV["TEST_DATABASE_PASSWORD"] %>
+  port: <%= ENV["TEST_DATABASE_PORT"] %>
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
