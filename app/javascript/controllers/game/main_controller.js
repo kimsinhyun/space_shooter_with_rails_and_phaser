@@ -31,7 +31,7 @@ export default class extends Controller {
         default: 'arcade',
         arcade: {
           gravity: { y: 0, x: 0 },
-          debug: true,
+          debug: true, // physics container 를 숨기려면 false
         },
       },
     }
