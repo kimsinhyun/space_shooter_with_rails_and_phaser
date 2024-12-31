@@ -2,29 +2,9 @@ import { Controller } from "@hotwired/stimulus"
 import Phaser from 'phaser'
 // import GameScene from '../../game/scenes/GameScene'
 import GameScene from 'game/scenes/GameScene'
-// GameScene 클래스 정의
-// class GameScene extends Phaser.Scene {
-//   constructor() {
-//     super({ key: 'GameScene' });
-//   }
-//
-//   preload() {
-//     console.log('GameScene preload');
-//     this.load.pack('asset_pack', 'game/data/assets.json');
-//   }
-//
-//   create() {
-//     console.log('GameScene created');
-//     this.add
-//         .text(this.scale.width / 2, this.scale.height / 2, 'Hello World', {
-//           fontSize: '32px',
-//         })
-//         .setOrigin(0.5);
-//     this.add.image(100, 100, "ship");
-//   }
-// }
+import PreloadScene from 'game/scenes/PreloadScene'
+import BootScene from 'game/scenes/BootScene'
 
-// Stimulus 컨트롤러
 export default class extends Controller {
   connect() {
     console.log('Game controller connected')
@@ -54,19 +34,21 @@ export default class extends Controller {
           debug: true,
         },
       },
-      scene: GameScene,
     }
 
-    // this.game = new Phaser.Game(config)
-    // this.game.scene.add('GameScene', GameScene)
-    // this.game.scene.start('GameScene')
+    this.game = new Phaser.Game(config)
 
-    try {
-      this.game = new Phaser.Game(config)
-      console.log('Game initialized successfully')
-    } catch (error) {
-      console.error('Failed to initialize game:', error)
-    }
+    this.game.scene.add('GameScene', GameScene)
+    this.game.scene.add('PreloadScene', PreloadScene)
+    this.game.scene.add('BootScene', BootScene)
+    this.game.scene.start('BootScene')
+
+    // try {
+    //   this.game = new Phaser.Game(config)
+    //   console.log('Game initialized successfully')
+    // } catch (error) {
+    //   console.error('Failed to initialize game:', error)
+    // }
   }
 
   disconnect() {
