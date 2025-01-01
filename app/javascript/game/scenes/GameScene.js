@@ -1,5 +1,6 @@
 import Phaser from 'phaser'
 import {Player} from 'game/objects/player'
+import {ScoutEnemy} from "game/objects/enemies/scout-enemy";
 // 'game/objects/player'
 export default class GameScene extends Phaser.Scene {
     #cursorKeys;
@@ -15,11 +16,6 @@ export default class GameScene extends Phaser.Scene {
     create() {
         console.log('GameScene created');
         const player = new Player(this);
-
-
+        const enemy = new ScoutEnemy(this, this.scale.width /2, 20);
     }
-
-    // update() {
-    //     console.log(this.#cursorKeys.up.isDown, this.#cursorKeys.down.isDown, this.#cursorKeys.left.isDown, this.#cursorKeys.right.isDown);
-    // }
 }
