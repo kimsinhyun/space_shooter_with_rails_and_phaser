@@ -19,5 +19,17 @@ export default class GameScene extends Phaser.Scene {
         const player = new Player(this);
         // const enemy = new ScoutEnemy(this, this.scale.width /2, 20);
         const enemy = new FighterEnemy(this, this.scale.width /2, 20);
+
+        // Phaser 에서는 overlap 이랑 collide 두가지로 충돌을 처리할 수 있다.
+        this.physics.add.overlap(player, enemy, (playerGameObject, enemyGameObject)=>{
+            console.log('collided with enemy');
+        });
+        this.physics.add.overlap(player, enemy.weaponGameObjectGroup, (playerGameObject, projectileGameObject)=>{
+            console.log('collided with bullet');
+        });
+        this.physics.add.overlap(enemy, player.weaponGameObjectGroup, (enemyGameObject, projectileGameObject)=>{
+            console.log('collided with bullet');
+        });
+
     }
 }
