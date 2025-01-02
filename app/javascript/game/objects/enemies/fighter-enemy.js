@@ -3,10 +3,14 @@ import * as CONFIG from 'game/config';
 import {VerticalMovementComponent} from "game/components/movement/vertical-movement-component";
 import {BotFighterInputComponent} from "game/components/input/bot-fighter-input-component";
 import {WeaponComponent} from "game/components/weapon/weapon-component";
+import {HealthComponent} from "game/components/health/health-component";
+import {ColliderComponent} from "game/components/collider/collider-component";
 
 export class FighterEnemy extends Phaser.GameObjects.Container {
     #InputComponent;
     #verticalMovementComponent;
+    #healthComponent;
+    #colliderComponent;
     #weaponComponent;
     #shipSprite;
     #shipEngineSprite;
@@ -36,6 +40,8 @@ export class FighterEnemy extends Phaser.GameObjects.Container {
             yOffset: 20,
             flipY: true
         });
+        this.#healthComponent = new HealthComponent(this, CONFIG.ENEMY_FIGHTER_HEALTH);
+        this.#colliderComponent = new ColliderComponent(this.#healthComponent);
 
         this.scene.events.on(Phaser.Scenes.Events.UPDATE, this.update, this);
         this.once(
@@ -54,8 +60,21 @@ export class FighterEnemy extends Phaser.GameObjects.Container {
         return this.#weaponComponent
     }
 
+    get healthComponent(){
+        return this.#healthComponent;
+    }
+
+    get colliderComponent() {
+        return this.#colliderComponent;
+    }
+
+
     update(ts, dt) {
-        // console.log(ts, dt);
+        if(!this.active) return;
+        if(this.#healthComponent.isDead){
+            this.setActive(false);
+            this.setVisible(false);
+        }
         this.#InputComponent.update();
         this.#verticalMovementComponent.update();
         this.#weaponComponent.update(dt);
