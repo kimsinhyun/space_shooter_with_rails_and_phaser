@@ -23,5 +23,6 @@ export class KeyBoardInputComponent extends InputComponent {
         this._down = this.#cursorKeys.down.isDown;
         this._left = this.#cursorKeys.left.isDown;
         this._right = this.#cursorKeys.right.isDown;
+        this._shoot = this.#cursorKeys.space.isDown;
     }
 }

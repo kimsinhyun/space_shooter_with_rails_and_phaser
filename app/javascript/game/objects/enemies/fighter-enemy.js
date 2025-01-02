@@ -2,10 +2,12 @@ import Phaser from 'phaser';
 import * as CONFIG from 'game/config';
 import {VerticalMovementComponent} from "game/components/movement/vertical-movement-component";
 import {BotFighterInputComponent} from "game/components/input/bot-fighter-input-component";
+import {WeaponComponent} from "game/components/weapon/weapon-component";
 
 export class FighterEnemy extends Phaser.GameObjects.Container {
     #InputComponent;
     #verticalMovementComponent;
+    #weaponComponent;
     #shipSprite;
     #shipEngineSprite;
 
@@ -26,6 +28,14 @@ export class FighterEnemy extends Phaser.GameObjects.Container {
 
         this.#InputComponent = new BotFighterInputComponent(this.scene);
         this.#verticalMovementComponent = new VerticalMovementComponent(this, this.#InputComponent, CONFIG.ENEMY_FIGHTER_MOVEMENT_VERTICAL_VELOCITY);
+        this.#weaponComponent = new WeaponComponent(this, this.#InputComponent,{
+            speed: CONFIG.ENEMY_BULLET_SPEED,
+            lifespan: CONFIG.ENEMY_BULLET_LIFESPAN,
+            interval: CONFIG.ENEMY_BULLET_INTERVAL,
+            maxCount: CONFIG.ENEMY_MAX_BULLET_COUNT,
+            yOffset: 20,
+            flipY: true
+        });
 
         this.scene.events.on(Phaser.Scenes.Events.UPDATE, this.update, this);
         this.once(
@@ -40,6 +50,7 @@ export class FighterEnemy extends Phaser.GameObjects.Container {
         // console.log(ts, dt);
         this.#InputComponent.update();
         this.#verticalMovementComponent.update();
+        this.#weaponComponent.update(dt);
         // this.#horizontalMovementComponent.update();
         // console.log(this.#keyBoardInputComponent.downIsDown)
     }

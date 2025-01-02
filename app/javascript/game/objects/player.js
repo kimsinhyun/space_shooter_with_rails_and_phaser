@@ -3,8 +3,10 @@ import {KeyBoardInputComponent} from "game/components/input/keyboard-input-compo
 import {HorizontalMovementComponent} from "game/components/movement/horizontal-movement-component";
 // import {VerticalMovementComponent} from "game/components/movement/vertical-movement-component";
 import * as CONFIG from 'game/config';
+import {WeaponComponent} from "game/components/weapon/weapon-component";
 
 export class Player extends Phaser.GameObjects.Container {
+    #weaponComponent;
     #keyBoardInputComponent;
     #horizontalMovementComponent;
     #verticalMovementComponent;
@@ -31,6 +33,14 @@ export class Player extends Phaser.GameObjects.Container {
         this.#keyBoardInputComponent = new KeyBoardInputComponent(this.scene);
         this.#horizontalMovementComponent = new HorizontalMovementComponent(this, this.#keyBoardInputComponent, CONFIG.PLAYER_MOVEMENT_HORIZONTAL_VELOCITY);
         // this.#verticalMovementComponent = new VerticalMovementComponent(this, this.#keyBoardInputComponent, CONFIG.PLAYER_MOVEMENT_HORIZONTAL_VELOCITY);
+        this.#weaponComponent = new WeaponComponent(this, this.#keyBoardInputComponent,{
+            speed: CONFIG.PLAYER_BULLET_SPEED,
+            lifespan: CONFIG.PLAYER_BULLET_LIFESPAN,
+            interval: CONFIG.PLAYER_BULLET_INTERVAL,
+            maxCount: CONFIG.PLAYER_MAX_BULLET_COUNT,
+            yOffset: -20,
+            flipY: false
+        });
 
         this.scene.events.on(Phaser.Scenes.Events.UPDATE, this.update, this);
         this.once(
@@ -47,5 +57,6 @@ export class Player extends Phaser.GameObjects.Container {
         this.#horizontalMovementComponent.update();
         // this.#verticalMovementComponent.update();
         // console.log(this.#keyBoardInputComponent.downIsDown)
+        this.#weaponComponent.update(dt);
     }
 }
